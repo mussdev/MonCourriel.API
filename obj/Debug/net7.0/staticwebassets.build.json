@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "ac7adiIG3DKV2C64txBUTx7o7bP332o+0ZEnmJLF+cY=",
+  "Source": "MonCourriel.API",
+  "BasePath": "_content/MonCourriel.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
