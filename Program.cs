@@ -1,11 +1,20 @@
+using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using MonCourriel.API.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Ajouter IWebHostEnvironment dans le service
+//builder.Services.AddSingleton<IWebHostEnvironment>(builder.Environment);
 
-builder.Services.AddControllers();
+// Add services to the container.
+builder.Services.AddControllers().AddNewtonsoftJson(options => {
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+});
+/* .AddJsonOptions(options => {
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+}); */
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

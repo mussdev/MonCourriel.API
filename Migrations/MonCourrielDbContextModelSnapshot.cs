@@ -26,43 +26,146 @@ namespace MonCourriel.API.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Adresse")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("CodeCourrier")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Contact")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<DateTime>("DateCourrier")
+                    b.Property<DateTime?>("DateCourrier")
+                        .IsRequired()
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Expediteur")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("MailCourrier")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Note")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Obejt")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Statut")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
                     b.ToTable("Courriers");
+                });
+
+            modelBuilder.Entity("MonCourriel.API.Models.CourrierImage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("CourrierId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("NameImg")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourrierId");
+
+                    b.ToTable("CourrierImages");
+                });
+
+            modelBuilder.Entity("MonCourriel.API.Models.Directions", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CompagnyDirections");
+                });
+
+            modelBuilder.Entity("MonCourriel.API.Models.Recommandation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("recommandations");
+                });
+
+            modelBuilder.Entity("MonCourriel.API.Models.ServicesDep", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext");
+
+                    b.Property<Guid>("DirectionId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DirectionId");
+
+                    b.ToTable("ServicesDeps");
+                });
+
+            modelBuilder.Entity("MonCourriel.API.Models.CourrierImage", b =>
+                {
+                    b.HasOne("MonCourriel.API.Models.Courrier", "Courriers")
+                        .WithMany("CourrierImages")
+                        .HasForeignKey("CourrierId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Courriers");
+                });
+
+            modelBuilder.Entity("MonCourriel.API.Models.ServicesDep", b =>
+                {
+                    b.HasOne("MonCourriel.API.Models.Directions", "Directions")
+                        .WithMany("ServicesDeps")
+                        .HasForeignKey("DirectionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Directions");
+                });
+
+            modelBuilder.Entity("MonCourriel.API.Models.Courrier", b =>
+                {
+                    b.Navigation("CourrierImages");
+                });
+
+            modelBuilder.Entity("MonCourriel.API.Models.Directions", b =>
+                {
+                    b.Navigation("ServicesDeps");
                 });
 #pragma warning restore 612, 618
         }
